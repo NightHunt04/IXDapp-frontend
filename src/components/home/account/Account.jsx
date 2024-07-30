@@ -22,8 +22,8 @@ function Account () {
     return (
         <div className="w-full md:w-[80%] h-full flex flex-col md:items-start items-center justify-start">
             <div className="mt-36 flex flex-col items-start justify-start w-full">
-                <div className="flex flex-col items-start justify-start overflow-hidden px-9 py-8 backdrop-blur-sm bg-[#262626ce] w-full rounded-lg">
-                    <p className="font-semibold"><span className="text-orange-500">MetaMask</span> ID : {account}</p>
+                <div className="flex flex-col items-start justify-start px-4 py-3 md:px-9 md:py-8 backdrop-blur-sm bg-[#262626ce] w-full rounded-lg">
+                    <p className="w-[96%] font-semibold"><span className="text-orange-500">MetaMask</span> ID : {account}</p>
                     <p className="text-xs md:text-sm text-gray-01 mt-2">IX posts created by your account are below</p>
                 </div>
 
