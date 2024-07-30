@@ -3,7 +3,7 @@ import jsonp from 'jsonp'
 
 export async function generateImage (_prompt) {
     console.log(_prompt)
-    _prompt = _prompt.trim().replace(' ', '+').trim()
+    _prompt = _prompt.trim().replace(' ', '+').trim() + '+NFT'
     const URL = import.meta.env.VITE_APP_IMG_GEN_KASTG_API_URL
     const API_KEY = import.meta.env.VITE_APP_IMG_GEN_KASTG_API_KEY
     const TARGET = `${URL}key=${API_KEY}&prompt=${_prompt}`
@@ -26,7 +26,6 @@ export async function generateImage (_prompt) {
 
     try {
         const response = await axios.request(options);
-        console.log(response.data);
         return response.data.result[0].url
     } catch (error) {
         console.error(error);

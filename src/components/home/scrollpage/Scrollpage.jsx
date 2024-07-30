@@ -12,7 +12,6 @@ function Scrollpage () {
             try {
                 const postData = await contract.methods.getPosts().call({ from: account })
                 setPostData([...postData].reverse())
-                console.log(postData)
             } catch (err) {
                 console.error(err)
             }
@@ -60,7 +59,7 @@ function Scrollpage () {
 
                             <div className="mt-5 rounded-xl px-4 py-3 bg-[#2b2b2b] flex flex-col items-start justify-start w-full">
                                 <p className="font-semibold text-lg">{data.title}</p>
-                                <p className="mt-2 text-gray-300">{data.content}</p>
+                                <p className="md:text-sm mt-2 text-gray-300">{data.content}</p>
                             </div>
 
                             <div className="text-sm self-end mt-2">

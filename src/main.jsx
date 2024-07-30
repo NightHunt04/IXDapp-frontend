@@ -33,7 +33,7 @@ const router = createBrowserRouter([
             element: <Liked />
           },
           {
-            path: 'account',
+            path: 'account/:id',
             element: <Account />
           }
         ]

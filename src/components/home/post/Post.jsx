@@ -56,7 +56,7 @@ function Post () {
         setImageSrc('')
         setTitle('')
 
-        if (contract && imageSrc && title && desc && account) {
+        if (contract && imageSrc && title && account) {
             try {
                 setTransactionLoader(true)
                 await contract.methods.setPost(imageSrc, title, desc).send({ from: account })
@@ -64,6 +64,7 @@ function Post () {
                 setCreated(true)
 
                 navigate('/')
+                window.location.reload()
             } catch (err) {
                 setTransactionLoader(false)
                 console.error(err)
@@ -100,6 +101,7 @@ function Post () {
                         </div>
                         {prompt && <button onClick={handleGenerateImage} className="px-2 py-1 text-red-500 border-[1px] border-red-700 rounded-lg bg-[#4d00006f]">Re-generate?</button>}
                     </div>}
+                {loader && <p className="text-xs md:text-sm text-gray-01">Wait for about 20s</p>}
 
                 <div className="mt-6 flex items-center justify-center w-full md:w-[60%] gap-2">
                     <div className="flex flex-col relative items-center justify-center w-full">
