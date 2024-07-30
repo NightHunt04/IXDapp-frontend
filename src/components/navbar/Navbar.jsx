@@ -22,7 +22,7 @@ function Navbar () {
 
             <div className="flex items-center justify-center gap-4 md:gap-9">
                 <div className="flex items-center justify-center gap-1 text-xs md:text-sm">
-                    <p className="font-semibold">MetaMask</p>
+                    <p className="font-semibold">MetaMask </p>
                     <img src="/assets/circle.png" className="w-[10px] h-[10xp] object-cover md:hidden" />
                     <p className="hidden md:block p-1 text-orange-600 bg-[#2f2f2fa1] rounded-xl">{account}</p>
                 </div>
