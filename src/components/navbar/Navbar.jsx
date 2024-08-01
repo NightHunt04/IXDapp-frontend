@@ -7,7 +7,7 @@ function Navbar () {
     const { account } = useContract()
 
     return (
-        <div className="w-full px-11 md:px-96 py-7 md:py-6 flex top-0 z-30 fixed items-center backdrop-blur-sm bg-[#020617a1]  justify-between border-b-[1px] border-[#303030]">
+        <div className="w-full px-11 md:px-96 py-4 md:py-6 flex top-0 z-30 fixed items-center backdrop-blur-sm bg-[#020617a1]  justify-between border-b-[1px] border-[#303030]">
             <div onClick={() => {
                 navigate('/')
                 window.location.reload()
