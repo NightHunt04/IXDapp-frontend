@@ -44,7 +44,7 @@ function Liked () {
                     </div>
                 </div>}
                 <p className="font-semibold text-2xl">Your liked IX posts</p>
-                <p className="text-gray-01 mb-10 md:mb-14">Number of liked IX posts: {ixposts.length}</p>
+                <p className="text-gray-01 mb-10 md:mb-14">Number of liked IX posts: {ixposts?.length}</p>
 
             {ixposts && ixposts.map(data => {
                     let id = uid.rnd()
