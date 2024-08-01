@@ -43,8 +43,13 @@ function Liked () {
                         <img src="/assets/like.gif" alt="like" className="w-full h-full object-cover rounded-lg" />
                     </div>
                 </div>}
-                <p className="font-semibold text-2xl">Your liked IX posts</p>
-                <p className="text-gray-01 mb-10 md:mb-14">Number of liked IX posts: {ixposts?.length}</p>
+
+            {ixposts && ixposts.length !== 0 && 
+                <div>
+                    <p className="font-semibold text-2xl">Your liked IX posts</p>
+                    <p className="text-gray-01 mb-10 md:mb-14">Number of liked IX posts: {ixposts?.length}</p>
+                </div>}
+            
 
             {ixposts && ixposts.map(data => {
                     let id = uid.rnd()
