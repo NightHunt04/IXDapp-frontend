@@ -16,6 +16,7 @@ function Scrollpage () {
     const [ixposts, setIxposts] = useState([])
     const lastTap = useRef(null)
     const touchTimeout = useRef(0)
+    const [wrongLikeButton, setWrongLikeButton] = useState(false)
 
     useEffect(() => {
         const fetchPostData = async () => {
@@ -62,11 +63,12 @@ function Scrollpage () {
     }, [])
 
     return (
-        <div className="w-full md:w-[80%] h-full flex flex-col md:items-start items-center justify-start">
-            <div className="my-40 h-full overflow-y-auto">
+        <div className=" w-full md:w-[80%] h-full flex flex-col md:items-start items-center justify-start">
+            <div className="relative my-40 h-full overflow-y-auto">
+            <p className="mb-10">* Double tap on the image to like/dislike it</p>
             {!postData && 
                 <div className="overflow-hidden flex flex-col items-start justify-start w-full">
-                    <p className="font-semibold text-2xl text-gray-100">Loading...</p>
+                    <p className="font-semibold text-xl md:text-2xl text-gray-100">Loading...</p>
                 </div>}
                 {postData && postData.map(data => {
                     let id = uid.rnd()
@@ -77,20 +79,7 @@ function Scrollpage () {
                                     <i className="px-2 py-1 flex items-center justify-center text-sm border-[1px] rounded-full fa fa-user border-[#7b7b7b]" aria-hidden="true"></i>
                                     <p className="font-semibold">{data.userAccount.slice(0, 6)}....{data.userAccount.slice(37, 42)}</p>
                                 </div>
-                                <button onClick={async (e) => {
-                                    if (e.target.classList.length === 3) {
-                                        e.target.className = liked
-                                        document.getElementById(`like-${id}`).classList.add('animate-like')
-
-                                        await likePost(account, data.img_url, data.userAccount, TimestampConverter({timestamp: data.id}), data.title, data.content, TimestampConverter({timestamp: data.time}))
-                                    }
-                                    else {
-                                        e.target.className = disliked
-                                        document.getElementById(`like-${id}`).classList.remove('animate-like')
-
-                                        await dislikePost(account, data.userAccount,  TimestampConverter({timestamp: data.id}))
-                                    }
-                                }}>
+                                <button>
                                     <i id={`upper-like-${id}`} className={`${ixposts && ixposts.find(post => post.accountAddress === data.userAccount && post.postId === TimestampConverter({timestamp: data.id})) ? liked : disliked}`} aria-hidden="true"></i>
                                 </button>
                             </div>
