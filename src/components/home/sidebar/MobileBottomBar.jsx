@@ -7,7 +7,10 @@ function MobileBottomBar () {
 
     return (
         <div className="fixed md:hidden bottom-0 backdrop-blur-sm bg-[#020617a1] flex items-center justify-between w-full px-16 py-4">
-            <button onClick={() => navigate('')}>
+            <button onClick={() => {
+                    navigate('')
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                }}>
                 <i className="fa-solid fa-house"></i>                    
             </button>
 

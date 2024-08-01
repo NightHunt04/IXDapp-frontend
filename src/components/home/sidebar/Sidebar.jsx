@@ -8,7 +8,10 @@ function Sidebar () {
     return (
         <div className="hidden md:flex md:flex-col items-center justify-start sticky top-0 h-full md:w-[20%]">
             <div className="mt-32 flex flex-col items-center justify-start text-sm border-[1px] px-4 py-3 border-[#3c3c3c] rounded-lg w-full">
-                <button onClick={() => navigate('')} className="px-8 py-2 rounded-md w-full bg-[#2e2e2e] shadow-lg flex items-center justify-center gap-2 font-semibold hover:bg-[#2e2e2e9e] transition-all">
+                <button onClick={() => { 
+                    navigate('')
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                }} className="px-8 py-2 rounded-md w-full bg-[#2e2e2e] shadow-lg flex items-center justify-center gap-2 font-semibold hover:bg-[#2e2e2e9e] transition-all">
                     <i className="fa-solid fa-house"></i>                    
                     <p>Home</p>
                 </button>
@@ -31,6 +34,7 @@ function Sidebar () {
 
             <div className="mt-5 flex flex-col items-center justify-start text-sm border-[1px] px-4 py-3 border-[#3c3c3c] rounded-lg w-full">
                 <p className="font-semibold">About me</p>
+                <p className="md:text-xs font-normal text-gray-01">(Hi, i am jeet)</p>
                 <div className="mt-2 flex text-lg items-center justify-center gap-4">
                     <a href="https://www.github.com/NightHunt04" target="_blank" className="hover:text-gray-600 transition-all">
                         <i className="fa-brands fa-square-github"></i>

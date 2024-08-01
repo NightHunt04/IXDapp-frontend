@@ -7,7 +7,7 @@ function Navbar () {
     const { account } = useContract()
 
     return (
-        <div className="w-full px-11 md:px-96 py-7 md:py-9 flex top-0 z-30 fixed items-center backdrop-blur-sm bg-[#020617a1]  justify-between border-b-[1px] border-[#303030]">
+        <div className="w-full px-11 md:px-96 py-7 md:py-6 flex top-0 z-30 fixed items-center backdrop-blur-sm bg-[#020617a1]  justify-between border-b-[1px] border-[#303030]">
             <div onClick={() => {
                 navigate('/')
                 window.location.reload()
@@ -20,13 +20,13 @@ function Navbar () {
                 </h2>
             </div>
 
-            <div className="flex items-center justify-center gap-4 md:gap-9">
+            <div className="flex flex-col items-end justify-center gap-1">
                 <div className="flex items-center justify-center gap-1 text-xs md:text-sm">
                     <p className="font-semibold">MetaMask </p>
                     <img src="/assets/circle.png" className="w-[10px] h-[10xp] object-cover md:hidden" />
                     <p className="hidden md:block p-1 text-orange-600 bg-[#2f2f2fa1] rounded-xl">{account}</p>
                 </div>
-                <button className="px-3 py-2 rounded-xl bg-[#4e0000d6] text-xs md:text-sm font-medium border-[1px] border-red-500">Logout <i className="fa fa-sign-out" aria-hidden="true"></i></button>
+                <p className="text-xs md:text-sm text-gray-01">Use <span className="text-pink-500">Sepolia (eth)</span> testnet</p>
             </div>
         </div>
     )
