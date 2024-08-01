@@ -6,7 +6,7 @@ function MobileBottomBar () {
     const { account } = useContract()
 
     return (
-        <div className="fixed md:hidden bottom-0 backdrop-blur-sm bg-[#0a0a0ace] flex items-center justify-between w-full px-16 py-4">
+        <div className="fixed md:hidden bottom-0 backdrop-blur-sm bg-[#020617a1] flex items-center justify-between w-full px-16 py-4">
             <button onClick={() => navigate('liked')}>
                 <i className="fa fa-heart" aria-hidden="true"></i>
             </button>

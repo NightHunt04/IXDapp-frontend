@@ -19,6 +19,8 @@ function Post () {
     const [rows, setRows] = useState(4);
 
     useEffect(() => {
+        window.scrollTo(0, 0)
+
         function handleResize() {
             if (window.innerWidth >= 768) { 
                 setCols(71)
@@ -101,7 +103,7 @@ function Post () {
                         </div>
                         {prompt && <button onClick={handleGenerateImage} className="px-2 py-1 text-red-500 border-[1px] border-red-700 rounded-lg bg-[#4d00006f]">Re-generate?</button>}
                     </div>}
-                {loader && <p className="text-xs md:text-sm text-gray-01">Wait for about 20s</p>}
+                {loader && <p className="text-xs md:text-sm font-semibold mt-1">Wait for about 20s</p>}
 
                 <div className="mt-6 flex items-center justify-center w-full md:w-[60%] gap-2">
                     <div className="flex flex-col relative items-center justify-center w-full">

@@ -2,10 +2,12 @@ import { createContext, useContext, useEffect, useState } from "react"
 import ContractABI from '../../ContractABI.json'
 import Web3 from 'web3'
 import ShortUniqueId from "short-unique-id"
+import { Cookies } from 'react-cookie'
 
 const ContractContext = createContext(null)
 
 export const ContractProvider = (props) => {
+    const cookies = new Cookies()
     const uid = new ShortUniqueId({ length: 8 })
     const [web3, setWeb3] = useState(null)
     const [contract, setContract] = useState(null)
@@ -60,7 +62,7 @@ export const ContractProvider = (props) => {
     }, [])
 
     return (
-        <ContractContext.Provider value={{web3, contract, account, noWeb3, TimestampConverter, uid}}>
+        <ContractContext.Provider value={{web3, contract, account, noWeb3, TimestampConverter, uid, cookies}}>
             {props.children}
         </ContractContext.Provider>
     )

@@ -1,11 +1,21 @@
+import { useEffect } from "react"
 import { Outlet } from "react-router-dom"
 import Navbar from "../navbar/Navbar"
 import MobileBottomBar from "./sidebar/MobileBottomBar"
 import Sidebar from "./sidebar/Sidebar"
+import { useNavigate } from 'react-router-dom'
 import { useContract } from "../../context/contractContext"
+// import { Cookies } from 'react-cookie'
 
 function Home () {
     const { noWeb3 } = useContract()
+    const navigate = useNavigate()
+    // const cookies = new Cookies()
+
+    // useEffect(() => {
+    //     if (!cookies.get('_token'))
+    //     navigate('/login')
+    // }, [cookies, navigate])
 
     return (
         <div className="relative w-full h-full flex flex-col items-center justify-start">
