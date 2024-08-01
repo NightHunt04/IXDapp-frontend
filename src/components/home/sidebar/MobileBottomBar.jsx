@@ -7,11 +7,15 @@ function MobileBottomBar () {
 
     return (
         <div className="fixed md:hidden bottom-0 backdrop-blur-sm bg-[#020617a1] flex items-center justify-between w-full px-16 py-4">
+            <button onClick={() => navigate('')}>
+                <i className="fa-solid fa-house"></i>                    
+            </button>
+
             <button onClick={() => navigate('liked')}>
                 <i className="fa fa-heart" aria-hidden="true"></i>
             </button>
 
-            <button onClick={() => navigate('post')} className="text-2xl font-semibold">
+            <button onClick={() => navigate('post')} className="text-lg font-semibold">
                 <i className="fa fa-plus" aria-hidden="true"></i>
             </button>
 

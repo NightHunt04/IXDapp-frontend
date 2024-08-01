@@ -34,7 +34,10 @@ function Account () {
                 <img src="/assets/calm.gif" alt="calm" className="w-full h-full object-cover rounded-lg" />
             </div>
             </div>}
+
             <div className={`${notUser ? 'hidden' : 'flex'} mt-36 flex-col items-start justify-start w-full`}>
+                <p className="text-lg md:text-xl font-semibold mb-4">Your account</p>
+
                 <div className="flex flex-col items-start justify-start px-4 py-3 md:px-9 md:py-8 backdrop-blur-sm bg-[#262626ce] w-full rounded-lg">
                     <p className="w-[96%] font-semibold"><span className="text-orange-500">MetaMask</span> ID : {account}</p>
                     <p className="text-xs md:text-sm text-gray-01 mt-2">IX posts created by your account are below</p>

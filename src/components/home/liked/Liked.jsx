@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { getLikedPost } from "../../../utils/getLikedPost"
 import { useContract } from "../../../context/contractContext"
 import ShortUniqueId from "short-unique-id"
@@ -13,6 +13,8 @@ function Liked () {
     const [ixposts, setIxposts] = useState(null)
     const [liked, setLiked] = useState('fa fa-heart mr-3 text-red-500')
     const [disliked, setDisLiked] = useState('fa fa-heart mr-3')
+    const lastTap = useRef(null)
+    const touchTimeout = useRef(0)
 
     useEffect(() => {
         const getLikedPostData = async () => {
@@ -31,7 +33,7 @@ function Liked () {
             <div className="mt-40 flex flex-col items-start justify-start">
             {!ixposts && 
             <div className="flex flex-col items-start justify-start w-full">
-                <p className="font-semibold text-2xl text-gray-100">Loading...</p>
+                <p className="font-semibold text-lg md:text-2xl text-gray-100 w-full text-left">Loading...</p>
             </div>}
 
             {ixposts && ixposts.length === 0 && 
@@ -60,20 +62,7 @@ function Liked () {
                                     <i className="px-2 py-1 flex items-center justify-center text-sm border-[1px] rounded-full fa fa-user border-[#7b7b7b]" aria-hidden="true"></i>
                                     <p className="font-semibold">{data.accountAddress.slice(0, 6)}....{data.accountAddress.slice(37, 42)}</p>
                                 </div>
-                                <button onClick={async (e) => {
-                                    if (e.target.classList.length === 3) {
-                                        e.target.className = liked
-                                        document.getElementById(`like-${id}`).classList.add('animate-like')
-
-                                        await likePost(account, data.imageURL, data.accountAddress, data.postId, data.title, data.content, data.time)
-                                    }
-                                    else {
-                                        e.target.className = disliked
-                                        document.getElementById(`like-${id}`).classList.remove('animate-like')
-
-                                        await dislikePost(account, data.accountAddress, data.postId)
-                                    }
-                                }}>
+                                <button>
                                     <i id={`upper-like-${id}`} className={liked} aria-hidden="true"></i>
                                 </button>
                             </div>
@@ -101,7 +90,6 @@ function Liked () {
 
                                                 await dislikePost(account, data.accountAddress,  data.postId)
                                             }            
-                                            console.log('double')
                                         } 
                                         lastTap.current = currentTime;
                                     }}

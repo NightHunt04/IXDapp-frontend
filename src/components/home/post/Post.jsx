@@ -86,7 +86,7 @@ function Post () {
             </div>}
 
             <div className="mt-40 flex flex-col items-start justify-start w-full">
-                <h3 className="text-lg font-semibold">Create an IX post</h3>
+                <h3 className="text-lg md:text-xl font-semibold">Create an IX post</h3>
                 <p className="text-gray-01">Generate an image by providing a prompt, give title and a description if want to.</p>
 
                 <div className="relative mt-7 md:mt-10 flex items-center justify-center rounded-xl overflow-hidden w-full h-full md:w-[450px] md:h-[450px] bg-[#2f2f2f]">
