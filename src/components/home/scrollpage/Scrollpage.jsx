@@ -6,7 +6,6 @@ import 'react-lazy-load-image-component/src/effects/blur.css'
 import { likePost } from "../../../utils/likePost"
 import { dislikePost } from "../../../utils/dislikePost"
 import { getLikedPost } from "../../../utils/getLikedPost"
-import throttle from 'lodash/throttle'
 
 function Scrollpage () {
     const uid = new ShortUniqueId({ length: 8 })
