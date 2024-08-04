@@ -6,23 +6,42 @@ import { useLocation } from "react-router-dom"
 
 function Account () {
     const location = useLocation()
-    const { account, contract, TimestampConverter, uid } = useContract()
+    const { account, contract, TimestampConverter, uid, cacheCreatedPost, setCacheCreatedPost } = useContract()
     const [postData, setPostData] = useState([])
     const [notUser, setNotUser] = useState(false)
 
     useEffect(() => {
-        if (location.pathname.split('/')[2] !== account) setNotUser(true)
-        const fetchPostData = async () => {
-            try {
-                const postData = await contract.methods.getUserPosts(account).call({ from: account })
-                setPostData([...postData].reverse())
-            } catch (err) {
-                console.error(err)
-            }
-        }
+        if (location.pathname.split('/')[2] !== account) {
+            setNotUser(true)
+            return
+        } else {
+            let setCache = false
 
-        if (contract)
-            fetchPostData()
+            const fetchPostData = async () => {
+                try {
+                    let postData = await contract.methods.getUserPosts(account).call({ from: account })
+                    postData = [...postData].reverse()
+                    console.log(postData)
+                    setPostData(postData)
+
+                    if (setCache)
+                        setCacheCreatedPost(postData)
+
+                    else {
+                        if (cacheCreatedPost.length !== postData.length)
+                            setCacheCreatedPost(postData)
+                    }
+                } catch (err) {
+                    console.error(err)
+                }
+            }
+
+            if (cacheCreatedPost.length === 0) { 
+                setCache = true
+            }
+            if (contract)
+                fetchPostData()
+        }
     }, [account, contract])
 
     return (
@@ -45,7 +64,7 @@ function Account () {
 
                 <p className="mt-14 font-semibold text-lg">Your creations</p>
                 <div className="mt-5 flex flex-col items-start justify-start overflow-y-auto w-full h-full">
-                    {postData && postData.map(data => {
+                    {cacheCreatedPost && cacheCreatedPost.map(data => {
                         return (
                             <div key={uid.rnd()} className="mb-24 flex flex-col items-start justify-start w-[100%] md:w-[60%]">
                                 <div className="flex items-center justify-between w-full">

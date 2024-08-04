@@ -6,10 +6,11 @@ import 'react-lazy-load-image-component/src/effects/blur.css'
 import { likePost } from "../../../utils/likePost"
 import { dislikePost } from "../../../utils/dislikePost"
 import { getLikedPost } from "../../../utils/getLikedPost"
+import throttle from 'lodash/throttle'
 
 function Scrollpage () {
     const uid = new ShortUniqueId({ length: 8 })
-    const { account, contract } = useContract()
+    const { account, contract, cachePostData, setCachePostData } = useContract()
     const [postData, setPostData] = useState(null)
     const [liked, setLiked] = useState('fa fa-heart mr-3 text-red-500')
     const [disliked, setDisLiked] = useState('fa fa-heart mr-3')
@@ -17,20 +18,104 @@ function Scrollpage () {
     const lastTap = useRef(null)
     const touchTimeout = useRef(0)
     const [wrongLikeButton, setWrongLikeButton] = useState(false)
+    const [pageNumber, setPageNumber] = useState(1)
+    const [changeNet, setChangeNet] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const scrollPositionRef = useRef(0)
+
 
     useEffect(() => {
+        let storeInCache = false
         const fetchPostData = async () => {
             try {
-                const postData = await contract.methods.getPosts().call({ from: account })
-                setPostData([...postData].reverse())
+                setChangeNet(false)
+                let postData = await contract.methods.getPostByPages(pageNumber).call({ from: account })
+                postData = [...postData].reverse()
+                setPostData(postData)
+
+                if (storeInCache)
+                    setCachePostData(postData)
+
+                else {
+                    if (postData.length !== cachePostData.length)
+                        setCachePostData(postData)
+                }
             } catch (err) {
+                setChangeNet(true)
                 console.error(err)
             }
         }
 
-        if (contract)
+        if (contract) {
+            if (cachePostData.length === 0) {
+                storeInCache = true
+            } 
             fetchPostData()
+        }
     }, [account, contract])
+
+    // const fetchScrollPostData = async () => {
+    //     // setPageNumber(prev => prev + 1)
+    //     if (loading) return
+    //     setLoading(true)
+    //     scrollPositionRef.current = window.scrollY
+
+    //     try {
+    //         let postData = await contract.methods.getPostByPages(pageNumber).call({ from: account })
+    //         if (postData) {
+    //             postData = [...postData].reverse()
+    //             setCachePostData(prev => [...prev, ...postData])
+    //             // console.log(postData)
+    //         }
+    //     } catch(err) {
+    //         console.log([])
+    //     } finally {
+    //         setLoading(false)
+    //         setTimeout(() => {
+    //             window.scrollTo(0, scrollPositionRef.current)
+    //         }, 0)
+    //     }
+        
+    // }
+
+    // const handleScroll = () => {
+    //     // console.log('height', document.documentElement.scrollHeight)
+    //     // console.log('top', document.documentElement.scrollTop)
+    //     // console.log('window', window.innerHeight)
+
+    //     if (window.innerHeight + document.documentElement.scrollTop + 1 >= document.documentElement.scrollHeight) {
+    //         console.log('fetch')
+    //         fetchScrollPostData()
+            
+    //     }
+    // }
+    // const handleScroll = useCallback(throttle(() => {
+    //     if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 200 ) {
+    //         console.log('now')
+    //         fetchScrollPostData()
+    //     } 
+
+    // }, 500), [fetchScrollPostData])
+
+    // useEffect(() => {
+    //     window.addEventListener('scroll', handleScroll)
+
+    //     return () => window.removeEventListener('scroll', handleScroll)
+    // }, [])
+
+    const fetchPostDataByPage = useCallback(async () => {
+        try {
+            let newPostData = await contract.methods.getPostByPages(pageNumber).call({ from: account })
+            newPostData = [...newPostData].reverse()
+
+            if (newPostData[0].title !== " " && newPostData[0].img_url !== " "){
+                console.log([...postData, ...newPostData])
+                setPostData(prev => [...prev, ...newPostData])
+            }
+        } catch (err) {
+            console.error(err)
+        }
+    }, [contract, account])
 
     useEffect(() => {
         const getLikedPostData = async () => {
@@ -64,13 +149,14 @@ function Scrollpage () {
 
     return (
         <div className=" w-full md:w-[80%] h-full flex flex-col md:items-start items-center justify-start">
-            <div className="relative my-40 h-full overflow-y-auto">
-            <p className="mb-10">* Double tap on the image to like/dislike it</p>
-            {!postData && 
+            {changeNet && <div className="my-40 font-semibold"><p>Change MetaMask network to <span className="text-pink-500">Sepolia</span> testnet</p></div>}
+            <div className={`${!changeNet ? '' : 'hidden'} relative my-40 h-full overflow-y-auto`}>
+                <p className="mb-10">* Double tap on the image to like/dislike it</p>
+                {!postData && 
                 <div className="overflow-hidden flex flex-col items-start justify-start w-full">
                     <p className="font-semibold text-xl md:text-2xl text-gray-100">Loading...</p>
                 </div>}
-                {postData && postData.map(data => {
+                {cachePostData && cachePostData.map(data => {
                     let id = uid.rnd()
                     return (
                         <div key={id} className="mb-24 flex flex-col items-start justify-start w-[100%] md:w-[60%]">
@@ -146,6 +232,10 @@ function Scrollpage () {
                         </div>
                     )
                 })}
+                <button onClick={() => {
+                        setPageNumber(prev => prev + 1)
+                        fetchPostDataByPage()
+                    }} className={`${postData && postData?.length > 10 ? 'block' : 'hidden'} text-xs md:text-sm px-3 py-2 rounded-lg bg-[#123a00c0] border-green-600 border-[1px]`}>Load more</button>
             </div>
         </div>
     )

@@ -9,7 +9,7 @@ import { dislikePost } from "../../../utils/dislikePost"
 
 function Liked () {
     const uid = new ShortUniqueId({ length: 8 })
-    const { account } = useContract()
+    const { account, cacheLikedPost, setCacheLikedPost } = useContract()
     const [ixposts, setIxposts] = useState(null)
     const [liked, setLiked] = useState('fa fa-heart mr-3 text-red-500')
     const [disliked, setDisLiked] = useState('fa fa-heart mr-3')
@@ -17,26 +17,41 @@ function Liked () {
     const touchTimeout = useRef(0)
 
     useEffect(() => {
+        let setCache = false
+
         const getLikedPostData = async () => {
             if (account) {
                 const response = await getLikedPost(account)
-                if (response)
-                    setIxposts(response)
+                if (response) { 
+                    // setIxposts(response)
+                                        
+                    if (setCache) 
+                        setCacheLikedPost(response)
+                    
+                    else {
+                        if (response.length !== cacheLikedPost.length)
+                            setCacheLikedPost(response)
+                    }
+                }
             }
         }
 
+        if (cacheLikedPost.length === 0) {
+            setCache = true
+        }
         getLikedPostData()
+
     }, [account])
     
     return (
         <div className="w-full md:w-[80%] h-full flex flex-col md:items-start items-center justify-start">
             <div className="mt-40 flex flex-col items-start justify-start">
-            {!ixposts && 
+            {!cacheLikedPost && 
             <div className="flex flex-col items-start justify-start w-full">
                 <p className="font-semibold text-lg md:text-2xl text-gray-100 w-full text-left">Loading...</p>
             </div>}
 
-            {ixposts && ixposts.length === 0 && 
+            {cacheLikedPost && cacheLikedPost.length === 0 && 
                 <div className="flex flex-col items-start justify-start w-full">
                     <p className="font-semibold text-2xl">You have liked no IX posts yet!</p>
                     <p className="text-gray-01">Number of liked IX posts: 0</p>
@@ -46,14 +61,14 @@ function Liked () {
                     </div>
                 </div>}
 
-            {ixposts && ixposts.length !== 0 && 
+            {cacheLikedPost && cacheLikedPost.length !== 0 && 
                 <div>
                     <p className="font-semibold text-2xl">Your liked IX posts</p>
-                    <p className="text-gray-01 mb-10 md:mb-14">Number of liked IX posts: {ixposts?.length}</p>
+                    <p className="text-gray-01 mb-10 md:mb-14">Number of liked IX posts: {cacheLikedPost?.length}</p>
                 </div>}
             
 
-            {ixposts && ixposts.map(data => {
+            {cacheLikedPost && cacheLikedPost.map(data => {
                     let id = uid.rnd()
                     return (
                         <div key={id} className="mb-24 flex flex-col items-start justify-start w-[100%] md:w-[60%]">

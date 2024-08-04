@@ -5,8 +5,10 @@ function App() {
 
   return (
     <ContractProvider>
+      <div className='flex mx-auto'>
       <div className='relative w-full h-full bg-slate-950 text-white font-istok-web text-[0.85rem] md:text-[1rem] flex flex-col items-center justify-start'>
         <Outlet />
+      </div>
       </div>
     </ContractProvider>
   )

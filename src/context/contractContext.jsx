@@ -7,6 +7,9 @@ import { Cookies } from 'react-cookie'
 const ContractContext = createContext(null)
 
 export const ContractProvider = (props) => {
+    const [cachePostData, setCachePostData] = useState([])
+    const [cacheLikedPost, setCacheLikedPost] = useState([])
+    const [cacheCreatedPost, setCacheCreatedPost] = useState([])
     const cookies = new Cookies()
     const uid = new ShortUniqueId({ length: 8 })
     const [web3, setWeb3] = useState(null)
@@ -62,7 +65,7 @@ export const ContractProvider = (props) => {
     }, [])
 
     return (
-        <ContractContext.Provider value={{web3, contract, account, noWeb3, TimestampConverter, uid, cookies}}>
+        <ContractContext.Provider value={{web3, contract, account, noWeb3, TimestampConverter, uid, cookies, cachePostData, setCachePostData, cacheLikedPost, setCacheLikedPost, cacheCreatedPost, setCacheCreatedPost}}>
             {props.children}
         </ContractContext.Provider>
     )
